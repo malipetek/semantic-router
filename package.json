@@ -1,6 +1,6 @@
 {
   "name": "@malipetek/semantic-router",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Semantic router for nodejs for my personal use, pretty straightforward, inspired by semantic router by aureliolabs",
   "repository": {
     "type": "git",
