@@ -1,7 +1,12 @@
 {
   "name": "@malipetek/semantic-router",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Semantic router for nodejs for my personal use, pretty straightforward, inspired by semantic router by aureliolabs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/malipetek/semantic-router.git"
+  },
+  "homepage": "https://github.com/malipetek/semantic-router",
   "main": "src/semantic-router.js",
   "author": "m.ali petek",
   "license": "MIT",
