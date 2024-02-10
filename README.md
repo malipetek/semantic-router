@@ -63,3 +63,19 @@ app.on('toolcall', [
    * }
    */
 ```
+## FastEmbed unzip issue
+When you run router for the first time fastembed will download and unzip the model for creating vector embeddings, sometimes `tar` command fails to unzip all files in the archive. This is a known issue.
+
+If you encounter this error, look up `local_cache` folder in your project directory. If the folder next to the `tar.gz` file only has 2 files, delete the folder and unzip the tar.gz manually.
+```
+throw new Error(`Tokenizer file not found at ${tokenizerPath}`);
+```
+Faulty folder:
+![Folder missing some files](image.png)
+
+Correct folder:
+![Alt text](image-3.png)
+
+### Warning
+Do not forget to add `local_cache` folder to .gitignore, it aint small:
+  ![Size of uncompressed model folder](image-2.png)
