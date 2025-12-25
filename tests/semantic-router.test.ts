@@ -1,9 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import semantic from '../src/semantic-router.js';
+import semantic from '../src/semantic-router.ts';
 
-/** @type {unknown|string} */
-let lastCall;
+let lastCall: string | undefined;
 
 const app = semantic();
 

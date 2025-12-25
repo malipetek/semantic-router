@@ -1,13 +1,14 @@
 {
   "name": "@malipetek/semantic-router",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Semantic router for nodejs for my personal use, pretty straightforward, inspired by semantic router by aureliolabs",
   "repository": {
     "type": "git",
     "url": "https://github.com/malipetek/semantic-router.git"
   },
   "homepage": "https://github.com/malipetek/semantic-router",
-  "main": "src/semantic-router.js",
+  "main": "dist/semantic-router.js",
+  "types": "dist/semantic-router.d.ts",
   "author": "m.ali petek",
   "license": "MIT",
   "private": false,
@@ -15,7 +16,17 @@
   "dependencies": {
     "fastembed": "^1.14.1"
   },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
   "scripts": {
-    "test": "node tests/*.js" 
-  }
+    "build": "tsc",
+    "test": "tsx --test tests/*.ts",
+    "prepublishOnly": "pnpm run build"
+  },
+  "files": [
+    "dist"
+  ]
 }
