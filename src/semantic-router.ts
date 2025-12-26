@@ -25,14 +25,14 @@ function similarity(xq: Float32Array, index: Float32Array[]): number {
   return Math.max(...sim);
 }
 
-const EMITTER = new EventEmitter();
-
 export class SemanticRouter {
   private model?: FlagEmbedding;
   private loaded = false;
   private routes: Route[] = [];
   private options: SemanticRouterOptions;
   private usedb: boolean;
+  private emitter = new EventEmitter();
+  private modelPromise: Promise<FlagEmbedding>;
 
   constructor(options: SemanticRouterOptions = { fastEmbedOptions: {}, db: undefined }) {
     this.options = {
@@ -46,30 +46,28 @@ export class SemanticRouter {
     
     this.usedb = !!(this.options.db && this.options.db.save && this.options.db.query);
 
-    FlagEmbedding.init(this.options.fastEmbedOptions).then(model => {
+    this.modelPromise = FlagEmbedding.init(this.options.fastEmbedOptions).then(model =>
+    {
       this.model = model;
       this.loaded = true;
-      EMITTER.emit('model-loaded');
+      this.emitter.emit('model-loaded');
+      return model;
     });
   }
 
   waitForModelLoad(): Promise<FlagEmbedding> {
-    return new Promise(resolve => {
-      if (this.loaded && this.model) {
-        resolve(this.model);
-      } else {
-        EMITTER.once('model-loaded', () => {
-          if (this.model) resolve(this.model);
-        });
-      }
-    });
+    return this.modelPromise;
   }
 
   onModelLoaded(callback: (...args: any[]) => void): void {
     if (typeof callback !== 'function') {
       throw new Error('Callback must be a function');
     }
-    EMITTER.prependListener('model-loaded', callback);
+    if (this.loaded) {
+      callback();
+    } else {
+      this.emitter.prependListener('model-loaded', callback);
+    }
   }
 
   async embed(texts: string[]): Promise<Float32Array[]> {

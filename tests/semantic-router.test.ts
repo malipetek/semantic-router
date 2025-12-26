@@ -51,3 +51,15 @@ test('Reply intent', async () => {
   await app.route('reply is: "there is no saved information about this"');
   assert.strictEqual(lastCall, 'replycall');
 });
+
+test('Concurrent calls should not trigger MaxListenersExceededWarning', async () =>
+{
+  const router = semantic();
+  const promises = [];
+  for (let i = 0; i < 20; i++) {
+    promises.push(router.embed([`concurrency test ${i}`]));
+  }
+  const results = await Promise.all(promises);
+  assert.strictEqual(results.length, 20);
+});
+
